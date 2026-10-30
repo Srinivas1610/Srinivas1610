@@ -212,6 +212,10 @@ function populateArsenal(arsenal) {
           <div class="release-command">${item.releaseCommand}</div>
           <div class="project-badge">${item.badge}</div>
         </div>
+        ${item.image ? `
+        <div class="project-img-wrap">
+          <img src="${item.image}" alt="${item.title}" class="project-img" loading="lazy">
+        </div>` : ''}
         <div class="project-title">${item.title}</div>
         <div class="project-kanji">${item.kanji}</div>
         <div class="project-desc">${item.description}</div>
