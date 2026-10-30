@@ -26,10 +26,10 @@ window.BLEACH_CONFIG = {
 
   // Social & Spiritual Transmission Links
   links: {
-    github: "https://github.com",
-    linkedin: "https://linkedin.com",
+    github: "https://github.com/Srinivas1610",
+    linkedin: "https://linkedin.com/in/srinivas",
     twitter: "https://twitter.com",
-    email: "mailto:shinigami@soul-society.dev",
+    email: "mailto:srinivas.r1610@gmail.com",
     resume: "#"
   },
 
