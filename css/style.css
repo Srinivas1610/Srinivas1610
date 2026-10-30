@@ -1,0 +1,1137 @@
+/* ===================================================================
+   BLEACH MANGA & ANIME AESTHETIC STYLESHEET
+   Architectural high-contrast typography, Reiatsu auras, and Bankai mode.
+   =================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@600;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+JP:wght@600;900&family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap');
+
+:root {
+  /* Shikai (Default) Palette */
+  --bg-primary: #0a0b0e;
+  --bg-secondary: #12141a;
+  --bg-card: rgba(18, 20, 26, 0.75);
+  --bg-card-hover: rgba(26, 30, 40, 0.9);
+  
+  --text-main: #f5f6f8;
+  --text-muted: #8b92a4;
+  --text-dim: #545b6d;
+
+  --accent-vermilion: #ff3333;
+  --accent-cyan: #00e5ff;
+  --accent-gold: #ffbe0b;
+  --border-light: rgba(255, 255, 255, 0.12);
+  --border-accent: rgba(0, 229, 255, 0.4);
+
+  --font-display: 'Cinzel', serif;
+  --font-title: 'Anton', sans-serif;
+  --font-body: 'Space Grotesk', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-kanji: 'Noto Serif JP', serif;
+
+  --reiatsu-glow: 0 0 25px rgba(0, 229, 255, 0.25);
+  --getsuga-glow: 0 0 35px rgba(255, 51, 51, 0.35);
+  --card-blur: blur(16px);
+  --ease-bleach: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* BANKAI MODE THEME */
+body.bankai-mode {
+  --bg-primary: #040405;
+  --bg-secondary: #0c090c;
+  --bg-card: rgba(14, 10, 14, 0.85);
+  --bg-card-hover: rgba(26, 14, 20, 0.95);
+  
+  --text-main: #ffffff;
+  --text-muted: #ad9a9f;
+  --text-dim: #6e5a60;
+
+  --accent-cyan: #ff003c;
+  --accent-vermilion: #ff0055;
+  --border-light: rgba(255, 0, 60, 0.2);
+  --border-accent: rgba(255, 0, 60, 0.7);
+
+  --reiatsu-glow: 0 0 35px rgba(255, 0, 60, 0.45);
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  overflow-x: hidden;
+  line-height: 1.6;
+  position: relative;
+  transition: background-color 0.5s var(--ease-bleach);
+}
+
+/* Halftone Manga Grain Overlay */
+.manga-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  background-image: radial-gradient(#fff 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+body.bankai-mode .manga-overlay {
+  opacity: 0.08;
+  background-image: radial-gradient(#ff003c 1px, transparent 1px);
+}
+
+/* Reiatsu Background Canvas */
+#reiatsu-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Typography Utilities */
+.font-kanji {
+  font-family: var(--font-kanji);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-stroke {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85);
+  color: transparent;
+  transition: all 0.3s ease;
+}
+
+.text-stroke:hover {
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+body.bankai-mode .text-stroke {
+  -webkit-text-stroke: 1.5px rgba(255, 0, 60, 0.85);
+}
+
+body.bankai-mode .text-stroke:hover {
+  color: #ff003c;
+  text-shadow: 0 0 25px #ff003c;
+}
+
+/* Navigation / Top Bar */
+.bleach-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2.5rem;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 11, 14, 0.65);
+  border-bottom: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: var(--text-main);
+}
+
+.nav-brand-symbol {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-kanji);
+  font-size: 1.1rem;
+  font-weight: 900;
+  box-shadow: var(--reiatsu-glow);
+  transform: rotate(45deg);
+  transition: all 0.4s var(--ease-bleach);
+}
+
+.nav-brand-symbol span {
+  transform: rotate(-45deg);
+}
+
+.nav-brand:hover .nav-brand-symbol {
+  transform: rotate(225deg);
+  border-color: var(--accent-vermilion);
+}
+
+.nav-brand-text {
+  font-family: var(--font-title);
+  letter-spacing: 0.18em;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.25s ease;
+  position: relative;
+  padding: 0.25rem 0;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 1.5px;
+  background: var(--accent-cyan);
+  transition: width 0.3s var(--ease-bleach);
+}
+
+.nav-links a:hover {
+  color: var(--text-main);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Sound Button & Bankai Toggle Button */
+.icon-btn {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  transition: all 0.25s ease;
+}
+
+.icon-btn:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: var(--reiatsu-glow);
+  color: var(--accent-cyan);
+}
+
+.bankai-toggle-btn {
+  background: #000;
+  border: 1.5px solid var(--accent-cyan);
+  color: var(--text-main);
+  padding: 0.55rem 1.4rem;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  font-size: 0.82rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--reiatsu-glow);
+  transition: all 0.4s var(--ease-bleach);
+}
+
+.bankai-toggle-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.bankai-toggle-btn:hover::before {
+  left: 100%;
+}
+
+.bankai-toggle-btn:hover {
+  transform: translateY(-2px);
+  background: #111;
+  border-color: #fff;
+}
+
+body.bankai-mode .bankai-toggle-btn {
+  border-color: #ff003c;
+  background: #1a0208;
+  color: #ff003c;
+  box-shadow: 0 0 25px rgba(255, 0, 60, 0.7);
+}
+
+/* Main Container */
+.bleach-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* HERO SECTION - Tite Kubo Title Card Layout */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 8rem 0 5rem 0;
+}
+
+.chapter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  color: var(--accent-cyan);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.chapter-badge::before {
+  content: '///';
+  color: var(--accent-vermilion);
+  font-weight: 800;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-title-wrap {
+  position: relative;
+}
+
+.hero-kanji-watermark {
+  position: absolute;
+  top: -40px;
+  left: -20px;
+  font-family: var(--font-kanji);
+  font-size: 14rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+  line-height: 1;
+  z-index: -1;
+  user-select: none;
+  transition: color 0.5s ease;
+}
+
+body.bankai-mode .hero-kanji-watermark {
+  color: rgba(255, 0, 60, 0.08);
+}
+
+.hero-name {
+  font-family: var(--font-title);
+  font-size: clamp(4.5rem, 9vw, 8.5rem);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.hero-name-kanji {
+  display: block;
+  font-family: var(--font-kanji);
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: var(--accent-cyan);
+  margin-bottom: 0.75rem;
+}
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: #fff;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+}
+
+.hero-bio {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 580px;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.hero-cta-group {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--text-main);
+  color: var(--bg-primary);
+  padding: 0.9rem 2.2rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.88rem;
+  border: 1px solid var(--text-main);
+  position: relative;
+  transition: all 0.3s var(--ease-bleach);
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--text-main);
+  box-shadow: var(--reiatsu-glow);
+  transform: translateY(-2px);
+}
+
+body.bankai-mode .btn-primary {
+  background: #ff003c;
+  color: #fff;
+  border-color: #ff003c;
+  box-shadow: 0 0 25px rgba(255, 0, 60, 0.6);
+}
+
+body.bankai-mode .btn-primary:hover {
+  background: transparent;
+  color: #ff003c;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  color: var(--text-main);
+  padding: 0.9rem 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: var(--reiatsu-glow);
+}
+
+/* Hero Visual / Avatar Card */
+.hero-visual-card {
+  position: relative;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  backdrop-filter: var(--card-blur);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  transition: transform 0.4s var(--ease-bleach), border-color 0.4s ease;
+}
+
+.hero-visual-card:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-4px);
+}
+
+.hero-visual-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(120%);
+  transition: filter 0.5s ease, transform 0.6s var(--ease-bleach);
+}
+
+.hero-visual-card:hover .hero-avatar-img {
+  filter: grayscale(20%) contrast(130%);
+  transform: scale(1.04);
+}
+
+body.bankai-mode .hero-avatar-img {
+  filter: grayscale(40%) contrast(140%) sepia(50%) hue-rotate(310deg);
+}
+
+.card-kanji-strip {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  writing-mode: vertical-rl;
+  font-family: var(--font-kanji);
+  font-size: 1.25rem;
+  letter-spacing: 0.3em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 0.8rem 0.4rem;
+  border-left: 2px solid var(--accent-cyan);
+  z-index: 2;
+}
+
+body.bankai-mode .card-kanji-strip {
+  border-left-color: #ff003c;
+}
+
+.card-meta-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  padding-top: 0.8rem;
+}
+
+/* BLEACH MANGA POEM BANNER */
+.bleach-quote-strip {
+  margin: 4rem 0 2rem 0;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border-left: 3px solid var(--accent-cyan);
+  border-right: 3px solid var(--accent-cyan);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+body.bankai-mode .bleach-quote-strip {
+  border-left-color: #ff003c;
+  border-right-color: #ff003c;
+  background: linear-gradient(90deg, rgba(255, 0, 60, 0.04), rgba(255, 0, 60, 0.08), rgba(255, 0, 60, 0.04));
+}
+
+.quote-content {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.06em;
+  color: #fff;
+  font-style: italic;
+  max-width: 800px;
+}
+
+.quote-author {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  letter-spacing: 0.1em;
+}
+
+/* STATS ROW */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin: 3.5rem 0 6rem 0;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--card-blur);
+  border: 1px solid var(--border-light);
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s var(--ease-bleach);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 0;
+  background: var(--accent-cyan);
+  transition: height 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-accent);
+}
+
+.stat-card:hover::before {
+  height: 100%;
+}
+
+.stat-card-kanji {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-family: var(--font-kanji);
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.05);
+  font-weight: 900;
+  user-select: none;
+}
+
+.stat-value {
+  font-family: var(--font-title);
+  font-size: 2.8rem;
+  line-height: 1;
+  color: var(--text-main);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* SECTION HEADERS (BLEACH CHAPTER STYLE) */
+.section-header {
+  margin-bottom: 3.5rem;
+  position: relative;
+}
+
+.section-num {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+body.bankai-mode .section-num {
+  color: #ff003c;
+}
+
+.section-title {
+  font-family: var(--font-title);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.section-subtitle {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* ARSENAL / REPOSITORY CARDS */
+.arsenal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+  margin-bottom: 7rem;
+}
+
+.project-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--card-blur);
+  border: 1px solid var(--border-light);
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s var(--ease-bleach);
+}
+
+.project-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: var(--border-accent);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+}
+
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.release-command {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent-cyan);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 229, 255, 0.08);
+  border-left: 2px solid var(--accent-cyan);
+}
+
+body.bankai-mode .release-command {
+  color: #ff003c;
+  background: rgba(255, 0, 60, 0.1);
+  border-left-color: #ff003c;
+}
+
+.project-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+}
+
+.project-title {
+  font-family: var(--font-title);
+  font-size: 1.85rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+
+.project-kanji {
+  font-family: var(--font-kanji);
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+  letter-spacing: 0.15em;
+}
+
+.project-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 1.8rem;
+  flex-grow: 1;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.project-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.25rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.project-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-light);
+  padding-top: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.project-stats {
+  display: flex;
+  gap: 1.25rem;
+  color: var(--text-muted);
+}
+
+.project-stats span {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.project-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.project-links a {
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  transition: color 0.2s ease;
+}
+
+.project-links a:hover {
+  color: var(--accent-cyan);
+}
+
+/* SHINIGAMI ARTS (SKILLS) SECTION */
+.arts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 2rem;
+  margin-bottom: 7rem;
+}
+
+.art-category-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--card-blur);
+  border: 1px solid var(--border-light);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.art-category-card:hover {
+  border-color: var(--border-accent);
+}
+
+.art-category-title {
+  font-family: var(--font-title);
+  font-size: 1.45rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+.art-category-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 0.75rem;
+}
+
+.skill-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.skill-bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+  position: relative;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  background: var(--text-main);
+  transition: width 1.2s var(--ease-bleach);
+}
+
+body.bankai-mode .skill-bar-fill {
+  background: linear-gradient(90deg, #ff003c, #ff3366);
+}
+
+/* CHRONICLES (TIMELINE) SECTION */
+.timeline-wrap {
+  position: relative;
+  margin-bottom: 7rem;
+  padding-left: 2rem;
+  border-left: 1.5px solid var(--border-light);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 3.5rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.35rem;
+  top: 0.3rem;
+  width: 10px;
+  height: 10px;
+  background: var(--bg-primary);
+  border: 2px solid var(--accent-cyan);
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+}
+
+body.bankai-mode .timeline-item::before {
+  border-color: #ff003c;
+  box-shadow: 0 0 10px #ff003c;
+}
+
+.timeline-era {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent-cyan);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+body.bankai-mode .timeline-era {
+  color: #ff003c;
+}
+
+.timeline-title-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.timeline-title {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  letter-spacing: 0.06em;
+}
+
+.timeline-kanji {
+  font-family: var(--font-kanji);
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  font-weight: 900;
+}
+
+.timeline-desc {
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 780px;
+}
+
+/* INTERACTIVE TERMINAL / HELL BUTTERFLY SECTION */
+.transmission-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--card-blur);
+  border: 1px solid var(--border-light);
+  padding: 2.5rem;
+  margin-bottom: 6rem;
+  position: relative;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.terminal-body {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: #fff;
+}
+
+.terminal-prompt {
+  color: var(--accent-cyan);
+  margin-right: 0.5rem;
+}
+
+body.bankai-mode .terminal-prompt {
+  color: #ff003c;
+}
+
+.transmission-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.form-full {
+  grid-column: span 2;
+}
+
+.bleach-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-light);
+  padding: 0.9rem 1.2rem;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.bleach-input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: var(--reiatsu-glow);
+}
+
+body.bankai-mode .bleach-input:focus {
+  border-color: #ff003c;
+  box-shadow: 0 0 15px rgba(255, 0, 60, 0.5);
+}
+
+textarea.bleach-input {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* FOOTER */
+.bleach-footer {
+  border-top: 1px solid var(--border-light);
+  padding: 4rem 0 3rem 0;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-kanji {
+  font-family: var(--font-kanji);
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.15);
+  margin-bottom: 1rem;
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Bankai Flash Effect Animation */
+.bankai-flash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+}
+
+@keyframes bankaiBurst {
+  0% { opacity: 0.95; background: #fff; }
+  30% { opacity: 0.8; background: #ff003c; }
+  100% { opacity: 0; background: #000; }
+}
+
+.anim-bankai {
+  animation: bankaiBurst 0.75s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .hero-visual-card {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .bleach-nav {
+    padding: 1rem 1.5rem;
+  }
+  .nav-links {
+    display: none; /* toggleable on mobile */
+  }
+  .transmission-form {
+    grid-template-columns: 1fr;
+  }
+  .form-full {
+    grid-column: span 1;
+  }
+}

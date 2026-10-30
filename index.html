@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KUROSAKI // SHINIGAMI ARCHITECT — GitHub Portfolio</title>
+  
+  <!-- Open Graph / Meta -->
+  <meta name="description" content="Bleach-inspired developer portfolio and GitHub landing page with Reiatsu effects, Bankai mode, and authentic Tite Kubo typography.">
+  <meta name="theme-color" content="#0a0b0e">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Manga Screen Tone Texture Overlay -->
+  <div class="manga-overlay"></div>
+
+  <!-- Bankai Transformation Flash Screen -->
+  <div id="bankai-flash" class="bankai-flash-screen"></div>
+
+  <!-- Interactive Spiritual Pressure (Reiatsu) Particle Canvas -->
+  <canvas id="reiatsu-canvas"></canvas>
+
+  <!-- Top Navigation Bar -->
+  <header class="bleach-nav">
+    <a href="#" class="nav-brand">
+      <div class="nav-brand-symbol">
+        <span>卍</span>
+      </div>
+      <div class="nav-brand-text" id="nav-brand-name">KUROSAKI</div>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#hero">Identity</a></li>
+        <li><a href="#arsenal">Arsenal</a></li>
+        <li><a href="#arts">Arts</a></li>
+        <li><a href="#chronicles">Chronicles</a></li>
+        <li><a href="#transmission">Transmit</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <!-- Audio SFX Toggle -->
+      <button id="sound-toggle" class="icon-btn" title="Toggle Synthesized Anime SFX (Press M)">
+        SFX: ON
+      </button>
+
+      <!-- Bankai Transformation Button -->
+      <button id="bankai-toggle" class="bankai-toggle-btn" title="Trigger Bankai Mode (Press B)">
+        <span>卍解 • BANKAI</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="bleach-container">
+    
+    <!-- CHAPTER 01: HERO / IDENTITY -->
+    <section id="hero" class="hero-section">
+      <div class="chapter-badge" id="hero-chapter">CHAPTER 001 // THE BLADE IS ME</div>
+      
+      <div class="hero-grid">
+        <div class="hero-title-wrap">
+          <div class="hero-kanji-watermark">死神</div>
+          <span class="hero-name-kanji" id="hero-name-kanji">黒崎 • SUBSTITUTE SHINIGAMI</span>
+          <h1 class="hero-name" id="hero-name">KUROSAKI</h1>
+          <div class="hero-subtitle" id="hero-subtitle">FULL-STACK SOFTWARE ENGINEER & ARCHITECT</div>
+          <p class="hero-bio" id="hero-bio">
+            Forging high-performance distributed systems, resilient microservices, and surgical web interfaces. Cutting through technical debt with the precision of a spiritual blade.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#arsenal" class="btn-primary">
+              <span>EXPLORE ARSENAL</span>
+              <span>→</span>
+            </a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" id="link-github" class="btn-secondary">
+              <span>GITHUB PROFILE</span>
+              <span>↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Manga Character / Profile Card -->
+        <div class="hero-visual-card">
+          <div class="hero-visual-frame">
+            <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80" alt="Shinigami Avatar" id="hero-avatar" class="hero-avatar-img">
+            <div class="card-kanji-strip">天鎖斬月</div>
+          </div>
+          <div class="card-meta-bar">
+            <span id="card-squad-tag">GOTEI 13 // 11TH DIVISION</span>
+            <span id="card-zanpakuto-tag">ZANGETSU (斬月)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tite Kubo Manga Poetry Spread -->
+      <div class="bleach-quote-strip">
+        <div>
+          <div class="quote-content" id="quote-text">
+            "We fear that which we cannot see, and we respect that which cannot be explained."
+          </div>
+          <div class="quote-author" id="quote-author">— Tite Kubo, BLEACH Vol. 1</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: COMBAT STATS / METRICS -->
+    <section class="stats-grid" id="stats-grid">
+      <!-- Populated dynamically via config.js -->
+    </section>
+
+    <!-- CHAPTER 02: ARSENAL / PROJECTS -->
+    <section id="arsenal">
+      <div class="section-header">
+        <span class="section-num">CHAPTER 002 // ZANPAKUTO RELEASES</span>
+        <h2 class="section-title">THE ARSENAL</h2>
+        <div class="section-subtitle">FEATURED OPEN SOURCE WORK & DISTRIBUTED SYSTEMS</div>
+      </div>
+
+      <div class="arsenal-grid" id="arsenal-grid">
+        <!-- Populated dynamically via config.js -->
+      </div>
+    </section>
+
+    <!-- CHAPTER 03: SHINIGAMI ARTS / SKILLS -->
+    <section id="arts">
+      <div class="section-header">
+        <span class="section-num">CHAPTER 003 // FOUR COMBAT FORMS</span>
+        <h2 class="section-title">SHINIGAMI ARTS</h2>
+        <div class="section-subtitle">MASTERY OVER SYSTEMS, RUNTIMES & ARCHITECTURES</div>
+      </div>
+
+      <div class="arts-grid" id="arts-grid">
+        <!-- Populated dynamically via config.js -->
+      </div>
+    </section>
+
+    <!-- CHAPTER 04: CHRONICLES OF BATTLE / EXPERIENCE -->
+    <section id="chronicles">
+      <div class="section-header">
+        <span class="section-num">CHAPTER 004 // CHRONICLES OF WAR</span>
+        <h2 class="section-title">BATTLE TIMELINE</h2>
+        <div class="section-subtitle">KEY MILESTONES, RELEASES & EXPEDITIONS</div>
+      </div>
+
+      <div class="timeline-wrap" id="timeline-wrap">
+        <!-- Populated dynamically via config.js -->
+      </div>
+    </section>
+
+    <!-- CHAPTER 05: TRANSMISSION / TERMINAL (CONTACT) -->
+    <section id="transmission">
+      <div class="section-header">
+        <span class="section-num">CHAPTER 005 // SOUL COMMUNICATIONS</span>
+        <h2 class="section-title">HELL BUTTERFLY DISPATCH</h2>
+        <div class="section-subtitle">TRANSMIT ORDERS ACROSS THE SENKAIMON GATEWAY</div>
+      </div>
+
+      <div class="transmission-card">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <div>JIGOKUCHO_PROTOCOL // SECURE V4</div>
+        </div>
+
+        <div class="terminal-body">
+          <p><span class="terminal-prompt">$</span> Establishing spiritual corridor link to developer node...</p>
+          <p><span class="terminal-prompt">$</span> Status: <span style="color: #00e5ff;">LISTENING ON PORT 1313 (SOUL SOCIETY)</span></p>
+        </div>
+
+        <form id="transmission-form" class="transmission-form">
+          <div>
+            <input type="text" class="bleach-input" placeholder="YOUR IDENTITY // NAME" required>
+          </div>
+          <div>
+            <input type="email" class="bleach-input" placeholder="COMMUNICATION CHANNEL // EMAIL" required>
+          </div>
+          <div class="form-full">
+            <textarea class="bleach-input" placeholder="TRANSMISSION CONTENT // PROJECT INQUIRY OR MISSION BRIEF..." required></textarea>
+          </div>
+          <div class="form-full">
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+              <span>RELEASE HELL BUTTERFLY (地獄蝶)</span>
+              <span>⚡</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bleach-footer">
+    <div class="footer-kanji">護廷十三隊</div>
+    <div class="footer-copy">
+      FORGED IN SOUL SOCIETY // ENGINEERED WITH HIGH REIATSU // ALL RIGHTS RESERVED
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="js/audio-sfx.js"></script>
+  <script src="js/reiatsu-canvas.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
